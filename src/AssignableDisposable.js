@@ -8,7 +8,6 @@ var AssignableDisposable = function AssignableDisposable(disosableCallback) {
     this.currentDisposable = disosableCallback;
 };
 
-
 AssignableDisposable.prototype = {
 
     /**
@@ -33,7 +32,6 @@ AssignableDisposable.prototype = {
         }
     }
 };
-
 
 module.exports = AssignableDisposable;
 

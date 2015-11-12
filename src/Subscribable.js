@@ -1,4 +1,6 @@
-var noOp = function() {};
+'use strict';
+
+var noOp = function noOp() {};
 var emptyDisposable = {dispose: noOp};
 
 /**
@@ -12,7 +14,7 @@ function Subscribable(subscribe) {
 
 Subscribable.prototype.subscribe = function subscribe(a, b, c) {
     var observer = a;
-    if (!observer || typeof observer !== "object") {
+    if (!observer || typeof observer !== 'object') {
         observer = {
             onNext: a || noOp,
             onError: b || noOp,
@@ -21,9 +23,9 @@ Subscribable.prototype.subscribe = function subscribe(a, b, c) {
     }
     var subscription = this._subscribe(observer);
     switch (typeof subscription) {
-        case "function":
+        case 'function':
             return { dispose: subscription };
-        case "object":
+        case 'object':
             return subscription || emptyDisposable;
         default:
             return emptyDisposable;

@@ -1,6 +1,6 @@
 var Subscribable = require('./Subscribable');
 var AssignableDisposable = require('./AssignableDisposable');
-var EMPTY_ARRAY = [];
+var EMPTY_SOURCES_ARRAY = [];
 
 /**
  * DataSourceChainer takes in a list of dataSources and calls them one at a time
@@ -17,13 +17,13 @@ var EMPTY_ARRAY = [];
  */
 var DataSourceChainer = function DataSourceChainer(sources) {
     // It makes the code easy to default to an empty array.
-    this._sources = sources || EMPTY_ARRAY;
+    this._sources = sources || EMPTY_SOURCES_ARRAY;
 };
 
 DataSourceChainer.prototype = {
     get: function get(paths) {
         var self = this;
-        return new Subscribable(function(observer) {
+        return new Subscribable(function getSubscribe(observer) {
             var seed = {};
 
             // Performs the internal get request loop.
