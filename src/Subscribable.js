@@ -1,5 +1,3 @@
-'use strict';
-
 var noOp = function noOp() {};
 var emptyDisposable = {dispose: noOp};
 

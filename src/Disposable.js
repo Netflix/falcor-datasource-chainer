@@ -1,5 +1,3 @@
-'use strict';
-
 var Disposable = function Disposable() {
     this.disposed = false;
 };

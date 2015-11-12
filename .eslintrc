@@ -15,7 +15,7 @@
         "no-dupe-keys": [ 2 ],
         "no-duplicate-case": [ 2 ],
         "no-empty": [ 2 ],
-        "no-empty-class": [ 2 ],
+        "no-empty-character-class": [ 2 ],
         "no-ex-assign": [ 2 ],
         "no-extra-boolean-cast": [ 2 ],
         "no-extra-semi": [ 2 ],
@@ -37,7 +37,7 @@
         "consistent-return": [ 2 ],
         "curly": [ 0 ],  // in jscs
         "default-case": [ 2 ],
-        "dot-notation": [ [ 2 ], { "allowKeywords": true } ],
+        "dot-notation": [ 2, { "allowKeywords": true } ],
         "eqeqeq": [ 2 ],
         "guard-for-in": [ 2 ],
         "no-alert": [ 2 ],
@@ -78,9 +78,6 @@
         "radix": [ 2 ],
         "wrap-iife": [ 2 ],
         "yoda": [ 0 ],
-
-        // strict mode
-        "strict": [ 2, "global" ],
 
         // variables
         "no-catch-shadow": [ 2 ],

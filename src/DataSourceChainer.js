@@ -1,6 +1,7 @@
 var Subscribable = require('./Subscribable');
 var AssignableDisposable = require('./AssignableDisposable');
 var EMPTY_SOURCES_ARRAY = [];
+var EMPTY_DISPOSABLE = {dispose: function empty() {}};
 
 /**
  * DataSourceChainer takes in a list of dataSources and calls them one at a time
@@ -24,7 +25,10 @@ DataSourceChainer.prototype = {
     get: function get(paths) {
         var self = this;
         return new Subscribable(function getSubscribe(observer) {
-            var seed = {};
+            var seed = {
+                jsonGraph: {},
+                paths: []
+            };
 
             // Performs the internal get request loop.
             return self._getRequestCycle(self, self._sources, 0,
@@ -33,7 +37,7 @@ DataSourceChainer.prototype = {
     },
     set: function set(jsonGraph) {
     },
-    call: function call(callPath, arguments, suffixes, paths) {
+    call: function call(callPath, args, suffixes, paths) {
     },
 
     /**
@@ -52,9 +56,11 @@ DataSourceChainer.prototype = {
             seed.unhandledPaths = remainingPaths;
             observer.onNext(seed);
             observer.onCompleted();
-            return;
+            return EMPTY_DISPOSABLE;
         }
 
         return disposable;
     }
 };
+
+module.exports = DataSourceChainer;

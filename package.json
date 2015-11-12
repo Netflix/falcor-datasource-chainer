@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Netflix/falcor-datasource-chainer#readme",
   "devDependencies": {
+    "chai": "^3.4.1",
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.1.0",
     "gulp-jscs": "^3.0.2",
