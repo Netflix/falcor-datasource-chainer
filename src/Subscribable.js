@@ -20,6 +20,7 @@ Subscribable.prototype.subscribe = function subscribe(a, b, c) {
         };
     }
     var subscription = this._subscribe(observer);
+
     switch (typeof subscription) {
         case 'function':
             return { dispose: subscription };

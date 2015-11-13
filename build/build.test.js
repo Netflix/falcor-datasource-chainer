@@ -2,7 +2,10 @@ var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
 
-gulp.task('test-coverage', function testCoverage(cb) {
+require('./build.style');
+
+// Before running coverage, fix the linting issues.
+gulp.task('test-coverage', ['jscs', 'lint'], function testCoverage(cb) {
     gulp.src(['./src/**/*.js']).
         pipe(istanbul()).
         pipe(istanbul.hookRequire()).
