@@ -10,7 +10,7 @@ gulp.task('test-coverage', function testCoverage(cb) {
             gulp.src(['./test/index.js']).
                 pipe(mocha()).
                 pipe(istanbul.writeReports()).
-                on('end', cb);
+                 on('end', cb);
         });
 });
 
