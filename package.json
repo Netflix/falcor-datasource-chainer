@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "mocha test/index.js",
-    "build": "gulp jscs"
+    "build": "gulp build",
+    "dist": "gulp dist"
   },
   "repository": {
     "type": "git",
@@ -25,12 +26,16 @@
   },
   "homepage": "https://github.com/Netflix/falcor-datasource-chainer#readme",
   "devDependencies": {
-    "chai": "^3.4.1",
-    "gulp": "^3.9.0",
-    "gulp-eslint": "^1.1.0",
-    "gulp-jscs": "^3.0.2",
-    "mocha": "^2.3.3",
-    "rx": "^4.0.6",
-    "sinon": "^1.17.2"
+    "chai": "3.4.1",
+    "coveralls": "2.11.4",
+    "gulp": "3.9.0",
+    "gulp-eslint": "1.1.0",
+    "gulp-istanbul": "0.10.2",
+    "gulp-jscs": "3.0.2",
+    "gulp-mocha": "2.1.3",
+    "mocha": "2.3.3",
+    "rx": "4.0.6",
+    "sinon": "1.17.2",
+    "webpack": "^1.12.4"
   }
 }
