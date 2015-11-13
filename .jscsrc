@@ -2,6 +2,10 @@
     // setup
     "fileExtensions":   [ ".js" ],
     "excludeFiles":     [ "./node_modules/**",
+                          "./bin",
+                          "./deps",
+                          "./docs",
+                          "./examples",
                           "./coverage"
                         ],
 
@@ -32,6 +36,7 @@
         "binary",
         "string"
     ],
+    "disallowAnonymousFunctions": true,
     "disallowMixedSpacesAndTabs": true,
     "disallowMultipleVarDecl": "exceptUndefined",
     "disallowNewlineBeforeBlockStatements": true,
@@ -42,10 +47,6 @@
     "disallowTrailingComma": true,
     "disallowTrailingWhitespace": true,
     "disallowYodaConditions": true,
-    "disallowAnonymousFunctions": true,
-    "disallowSpacesInAnonymousFunctionExpression": {
-        "beforeOpeningRoundBrace": true
-    },
 
     // require rules
     "requireBlocksOnNewline": true,
@@ -65,23 +66,16 @@
     "requireLineBreakAfterVariableAssignment": true,
     "requirePaddingNewLinesAfterUseStrict": true,
     "requirePaddingNewLinesBeforeExport": true,
-    "requireSemicolons": true,
-    "requireSpaceAfterBinaryOperators": true,
-    "requireSpaceAfterKeywords": [
+    "requirePaddingNewlinesBeforeKeywords": [
         "do",
         "for",
-        "if",
-        "else",
         "switch",
-        "case",
         "try",
-        "catch",
-        "void",
-        "while",
-        "with",
-        "return",
-        "typeof"
+        "while"
     ],
+    "requireSemicolons": true,
+    "requireSpaceAfterBinaryOperators": true,
+    "requireSpaceAfterKeywords": true,
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceBeforeBlockStatements": true,
     "requireSpaceBeforeKeywords": [
@@ -90,6 +84,9 @@
         "catch"
     ],
     "requireSpaceBetweenArguments": true,
+    "requireSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
     "requireSpacesInConditionalExpression": true,
     "requireSpacesInForStatement": true,
     "requireSpacesInFunction": {

@@ -9,14 +9,14 @@ var build = [
     './gulpfile.js'
 ];
 var test = [
-    './test/**/*.js',
+    './test/**/*.js'
 ];
 
 gulp.task('jscs', function _jscs() {
+    // style does not apply to test files, but lint does.
     return gulp.src(
             src.
-                concat(build).
-                concat(test)).
+                concat(build)).
         pipe(jscs()).
         pipe(jscs.reporter()).
         pipe(jscs.reporter('fail'));
