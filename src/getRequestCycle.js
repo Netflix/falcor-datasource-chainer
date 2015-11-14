@@ -45,6 +45,7 @@ module.exports = function getRequestCycle(sources, sourceIndex, remainingPaths,
             // TODO: If there has been an error what do we do?
             // Are all paths considered 'unhandledPaths?'  Its not really
             // the case.
+            observer.onError(dataSourceError);
         }, function onCompleted() {
             // Exit condition.
             if (disposable.disposed) {

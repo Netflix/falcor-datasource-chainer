@@ -15,7 +15,12 @@ AutoRespondDataSource.prototype.get = function get() {
         }
 
         function respond() {
-            onNext(self._data);
+            if (options.error) {
+                onError(e);
+            }
+            else {
+                onNext(self._data);
+            }
         }
 
         function onNext(data) {
