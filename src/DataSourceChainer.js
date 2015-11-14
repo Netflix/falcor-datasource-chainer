@@ -1,7 +1,6 @@
+var getRequestCycle = require('./getRequestCycle');
 var Subscribable = require('./Subscribable');
-var AssignableDisposable = require('./AssignableDisposable');
 var EMPTY_SOURCES_ARRAY = [];
-var EMPTY_DISPOSABLE = {dispose: function empty() {}};
 
 /**
  * DataSourceChainer takes in a list of dataSources and calls them one at a time
@@ -31,35 +30,13 @@ DataSourceChainer.prototype = {
             };
 
             // Performs the internal get request loop.
-            return self._getRequestCycle(self, self._sources, 0,
-                                         paths, seed, observer);
+            return getRequestCycle(self._sources, 0,
+                                   paths, seed, observer);
         });
     },
     set: function set(jsonGraph) {
     },
     call: function call(callPath, args, suffixes, paths) {
-    },
-
-    /**
-     * Performs the requesting of the data from each dataSource until exhausted
-     * or completed.
-     * @private
-     */
-    _getRequestCycle: function _getRequestCycle(sourceChainer, sources,
-                                                sourceIndex, remainingPaths,
-                                                seed, observer, disposable) {
-        var currentSource = sources[sourceIndex];
-        disposable = disposable || new AssignableDisposable();
-
-        // Sources have been exhausted, time to finish
-        if (!currentSource) {
-            seed.unhandledPaths = remainingPaths;
-            observer.onNext(seed);
-            observer.onCompleted();
-            return EMPTY_DISPOSABLE;
-        }
-
-        return disposable;
     }
 };
 
