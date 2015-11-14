@@ -15,21 +15,12 @@ AutoRespondDataSource.prototype.get = function get() {
         }
 
         function respond() {
-            if (options.error) {
-                onError(e);
-            }
-            else {
-                onNext(self._data);
-            }
+            onNext(self._data);
         }
 
         function onNext(data) {
             observer.onNext(data);
             observer.onCompleted();
-        }
-
-        function onError(e) {
-            observer.onError(e);
         }
     });
 };
