@@ -15,7 +15,6 @@ describe('DataSourceChainer', function() {
                 expect(onNext.calledOnce).to.be.ok;
                 expect(onNext.getCall(0).args[0]).to.deep.equals({
                     jsonGraph: {},
-                    paths: [],
                     unhandledPaths: [
                         ['paths']
                     ]
@@ -31,8 +30,7 @@ describe('DataSourceChainer', function() {
                 hello: {
                     world: 'foo bar'
                 }
-            },
-            paths: [['hello', 'world']]
+            }
         });
         var source = new DataSourceChainer([innerSource]);
         var onNext = sinon.spy();
@@ -45,8 +43,7 @@ describe('DataSourceChainer', function() {
                         hello: {
                             world: 'foo bar'
                         }
-                    },
-                    paths: [['hello', 'world']]
+                    }
                 });
             }).
             subscribe(noOp, done, done);
@@ -58,8 +55,7 @@ describe('DataSourceChainer', function() {
                 hello: {
                     world: 'foo bar'
                 }
-            },
-            paths: [['hello', 'world']]
+            }
         }, {wait: 100});
         var source = new DataSourceChainer([innerSource]);
         var onNext = sinon.spy();
@@ -72,8 +68,42 @@ describe('DataSourceChainer', function() {
                         hello: {
                             world: 'foo bar'
                         }
-                    },
-                    paths: [['hello', 'world']]
+                    }
+                });
+            }).
+            subscribe(noOp, done, done);
+    });
+
+    it('should merge in two requests into a single jsonGraphResponse.', function(done) {
+        var partial1 = new AutoRespondDataSource({
+            jsonGraph: {
+                hello: {
+                    world: 'foo'
+                }
+            },
+            unhandledPaths: [['hello', 'foo']]
+        }, {wait: 100});
+        var partial2 = new AutoRespondDataSource({
+            jsonGraph: {
+                hello: {
+                    foo: 'bar'
+                }
+            }
+        }, {wait: 100});
+
+        var source = new DataSourceChainer([partial1, partial2]);
+        var onNext = sinon.spy();
+        toObservable(source.
+            get([['hello', ['world', 'foo']]])).
+            doAction(onNext, noOp, function() {
+                expect(onNext.calledOnce).to.be.ok;
+                expect(onNext.getCall(0).args[0]).to.deep.equals({
+                    jsonGraph: {
+                        hello: {
+                            world: 'foo',
+                            foo: 'bar'
+                        }
+                    }
                 });
             }).
             subscribe(noOp, done, done);

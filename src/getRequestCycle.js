@@ -1,5 +1,6 @@
 var AssignableDisposable = require('./AssignableDisposable');
 var EMPTY_DISPOSABLE = {dispose: function empty() {}};
+var mergeJSONGraphEnvelopes = require('./cache/mergeJSONGraphEnvelopes');
 
 /**
  * Performs the requesting of the data from each dataSource until exhausted
@@ -18,13 +19,14 @@ module.exports = function getRequestCycle(sources, sourceIndex, remainingPaths,
         seed.unhandledPaths = remainingPaths;
         observer.onNext(seed);
         observer.onCompleted();
-        return EMPTY_DISPOSABLE;
+        disposable.currentDisposable = EMPTY_DISPOSABLE;
+        return disposable;
     }
 
     // we have a current source so we need to attempt to fulfill the
     // remaining paths.
 
-    // If the source index is greater than 1 then we need to attemp to
+    // If the source index is greater than 1 then we need to attempt to
     // optimize / reduce missing paths with our already formulated seed.
     if (sourceIndex > 1) {
         // TODO: optimize / reduce
@@ -56,18 +58,21 @@ module.exports = function getRequestCycle(sources, sourceIndex, remainingPaths,
             // is the second or later source.
             if (sourceIndex === 0) {
                 seed = {
-                    jsonGraph: jsonGraphFromSource.jsonGraph,
-                    paths: jsonGraphFromSource.paths
+                    jsonGraph: jsonGraphFromSource.jsonGraph
                 };
             }
 
             else {
-                // TODO: Merge algorithm
+                mergeJSONGraphEnvelopes(seed, jsonGraphFromSource);
             }
 
             // are there unhandledPaths?
             if (jsonGraphFromSource.unhandledPaths &&
                 jsonGraphFromSource.unhandledPaths.length) {
+
+                // Async Request Recursion.
+                getRequestCycle(sources, sourceIndex + 1, remainingPaths, seed,
+                                observer, disposable);
             }
 
             // We have finished here.
