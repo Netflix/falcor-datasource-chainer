@@ -28,6 +28,7 @@
   "devDependencies": {
     "chai": "3.4.1",
     "coveralls": "2.11.4",
+    "falcor-json-graph": "^1.1.7",
     "gulp": "3.9.0",
     "gulp-eslint": "1.1.0",
     "gulp-istanbul": "0.10.2",
@@ -37,9 +38,9 @@
     "mocha": "2.3.3",
     "rx": "4.0.6",
     "sinon": "1.17.2",
-    "webpack": "^1.12.6"
+    "webpack": "1.12.6"
   },
   "dependencies": {
-    "falcor-path-utils": "^0.3.4"
+    "falcor-path-utils": "0.4.0"
   }
 }

@@ -1,6 +1,10 @@
 var AssignableDisposable = require('./AssignableDisposable');
 var EMPTY_DISPOSABLE = {dispose: function empty() {}};
 var mergeJSONGraphEnvelopes = require('./cache/mergeJSONGraphEnvelopes');
+var pathUtils = require('falcor-path-utils');
+var optimizePathSets = pathUtils.optimizePathSets;
+var collapse = pathUtils.collapse;
+var MAX_REFERENCES_TO_FOLLOW = 10;
 
 /**
  * Performs the requesting of the data from each dataSource until exhausted
@@ -8,11 +12,23 @@ var mergeJSONGraphEnvelopes = require('./cache/mergeJSONGraphEnvelopes');
  * @private
  */
 // TODO: Clean up this function as its very large.
-module.exports = function getRequestCycle(sources, sourceIndex, remainingPaths,
-                                          seed, observer, disposable) {
+module.exports = function getRequestCycle(sources, sourceIndex,
+                                          remainingPathsArg, seed,
+                                          observer, disposable) {
 
     var currentSource = sources[sourceIndex];
+    var remainingPaths = remainingPathsArg;
     disposable = disposable || new AssignableDisposable();
+
+    // If the source index is greater than 1 then we need to attempt to
+    // optimize / reduce missing paths with our already formulated seed.
+    if (sourceIndex > 1 && remainingPaths && remainingPaths.length) {
+        remainingPaths = optimizePathSets(seed.jsonGraph, remainingPaths,
+                                          MAX_REFERENCES_TO_FOLLOW);
+        if (remainingPaths.length) {
+            remainingPaths = collapse(remainingPaths);
+        }
+    }
 
     // Sources have been exhausted, time to finish
     if (!currentSource || !remainingPaths || remainingPaths.length === 0) {
@@ -21,15 +37,6 @@ module.exports = function getRequestCycle(sources, sourceIndex, remainingPaths,
         observer.onCompleted();
         disposable.currentDisposable = EMPTY_DISPOSABLE;
         return disposable;
-    }
-
-    // we have a current source so we need to attempt to fulfill the
-    // remaining paths.
-
-    // If the source index is greater than 1 then we need to attempt to
-    // optimize / reduce missing paths with our already formulated seed.
-    if (sourceIndex > 1) {
-        // TODO: optimize / reduce
     }
 
     // Request from the current source.
@@ -67,11 +74,11 @@ module.exports = function getRequestCycle(sources, sourceIndex, remainingPaths,
             }
 
             // are there unhandledPaths?
-            if (jsonGraphFromSource.unhandledPaths &&
-                jsonGraphFromSource.unhandledPaths.length) {
+            var unhandledPaths = jsonGraphFromSource.unhandledPaths;
+            if (unhandledPaths && unhandledPaths.length) {
 
                 // Async Request Recursion.
-                getRequestCycle(sources, sourceIndex + 1, remainingPaths, seed,
+                getRequestCycle(sources, sourceIndex + 1, unhandledPaths, seed,
                                 observer, disposable);
             }
 
