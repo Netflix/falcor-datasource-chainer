@@ -25,8 +25,7 @@ DataSourceChainer.prototype = {
         var self = this;
         return new Subscribable(function getSubscribe(observer) {
             var seed = {
-                jsonGraph: {},
-                paths: []
+                jsonGraph: {}
             };
 
             // Performs the internal get request loop.

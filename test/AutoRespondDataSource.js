@@ -4,10 +4,14 @@ var AutoRespondDataSource = function AutoRespondDataSource(data, options) {
     this._data = data;
 };
 
-AutoRespondDataSource.prototype.get = function get() {
+AutoRespondDataSource.prototype.get = function get(paths) {
     var self = this;
     var options = self._options;
     return new Subscribable(function getSubscribe(observer) {
+        if (options.onGet) {
+            options.onGet(paths);
+        }
+
         if (options.wait) {
             setTimeout(respond, options.wait);
         } else {
