@@ -51,10 +51,26 @@ module.exports = function getRequestCycle(sources, sourceIndex,
                 return;
             }
 
-            // TODO: If there has been an error what do we do?
-            // Are all paths considered 'unhandledPaths?'  Its not really
-            // the case.
-            observer.onError(dataSourceError);
+            // Merge and onNext the seed value to the observer.
+            if (sourceIndex > 0 || jsonGraphFromSource) {
+                if (jsonGraphFromSource) {
+                    mergeJSONGraphEnvelopes(seed, jsonGraphFromSource);
+                }
+                observer.onNext(seed);
+            }
+
+            // Assumes that the array is an array of path values.
+            if (Array.isArray(dataSourceError)) {
+                observer.onError(dataSourceError);
+                return;
+            }
+
+            observer.onError(remainingPaths.map(function toPathValues(path) {
+                return {
+                    path: path,
+                    value: dataSourceError
+                };
+            }));
         }, function onCompleted() {
             // Exit condition.
             if (disposable.disposed) {
