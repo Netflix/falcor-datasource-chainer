@@ -5,8 +5,8 @@ var AutoRespondDataSource = function AutoRespondDataSource(data, options) {
 };
 
 AutoRespondDataSource.prototype.get = function get(paths) {
-    var self = this;
-    var options = self._options;
+    var options = this._options;
+    var data = this._data;
     return new Subscribable(function getSubscribe(observer) {
         if (options.onGet) {
             options.onGet(paths);
@@ -19,10 +19,19 @@ AutoRespondDataSource.prototype.get = function get(paths) {
         }
 
         function respond() {
-            onNext(self._data);
+            if (options.onError) {
+                if (options.onNext) {
+                    observer.onNext(data);
+                }
+                observer.onError(options.error);
+            }
+
+            else {
+                onNext();
+            }
         }
 
-        function onNext(data) {
+        function onNext() {
             observer.onNext(data);
             observer.onCompleted();
         }
