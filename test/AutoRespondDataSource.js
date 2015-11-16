@@ -8,6 +8,7 @@ AutoRespondDataSource.prototype.get = function get(paths) {
     var options = this._options;
     var data = this._data;
     return new Subscribable(function getSubscribe(observer) {
+        var disposed = false;
         if (options.onGet) {
             options.onGet(paths);
         }
@@ -19,6 +20,10 @@ AutoRespondDataSource.prototype.get = function get(paths) {
         }
 
         function respond() {
+            if (disposed) {
+                return;
+            }
+
             if (options.onError) {
                 if (options.onNext) {
                     observer.onNext(data);
@@ -35,6 +40,10 @@ AutoRespondDataSource.prototype.get = function get(paths) {
             observer.onNext(data);
             observer.onCompleted();
         }
+
+        return function() {
+            disposed = true;
+        };
     });
 };
 
