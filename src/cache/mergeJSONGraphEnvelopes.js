@@ -25,6 +25,7 @@ function mergeJSONGraph(jsonGraphToMergeInto, cacheToMergeFrom,
     // Inductive case: iterate on all the keys and perform a simple merge.
     var keys = Object.keys(cacheToMergeFrom);
     var i, len;
+
     for (i = 0, len = keys.length; i < len; ++i) {
         var key = keys[i];
         if (!jsonGraphToMergeInto[key]) {
