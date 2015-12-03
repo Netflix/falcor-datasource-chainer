@@ -47,4 +47,41 @@ AutoRespondDataSource.prototype.get = function get(paths) {
     });
 };
 
+AutoRespondDataSource.prototype.set = function set(jsonGraph) {
+    var options = this._options;
+    var data = this._data;
+    return new Subscribable(function getSubscribe(observer) {
+        var disposed = false;
+
+        if (options.onSet) {
+            options.onSet(jsonGraph);
+        }
+
+        if (options.wait) {
+            setTimeout(respond, options.wait);
+        } else {
+            respond();
+        }
+
+        function respond() {
+            if (disposed) {
+                return;
+            }
+
+            if (options.onError) {
+                observer.onError(options.error);
+            }
+
+            else {
+                observer.onNext(data);
+                observer.onCompleted();
+            }
+        }
+
+        return function() {
+            disposed = true;
+        };
+    });
+};
+
 module.exports = AutoRespondDataSource;
