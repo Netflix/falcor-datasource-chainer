@@ -9,23 +9,6 @@ var atom = falcorJGraph.atom;
 var ref = falcorJGraph.ref;
 
 describe('Get', function() {
-    it('should be able to construct an empty chainer and make get requests.', function(done) {
-        var source = new DataSourceChainer();
-        var onNext = sinon.spy();
-        toObservable(source.
-            get([['paths']])).
-            doAction(onNext, noOp, function() {
-                expect(onNext.calledOnce).to.be.ok;
-                expect(onNext.getCall(0).args[0]).to.deep.equals({
-                    jsonGraph: {},
-                    unhandledPaths: [
-                        ['paths']
-                    ]
-                });
-            }).
-            subscribe(noOp, done, done);
-
-    });
 
     it('should be ok with happy case DataSource where the first DataSource fills all data (sync).', function(done) {
         var innerSource = new AutoRespondDataSource({
