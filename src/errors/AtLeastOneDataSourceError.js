@@ -1,4 +1,5 @@
-var MESSAGE = 'The DataSourceChainer requires at least one dataSource in its constructor.';
+var MESSAGE = 'The DataSourceChainer requires at least one dataSource ' +
+              'in its constructor.';
 /**
  * A data source chainer was initialized without any sources.
  *

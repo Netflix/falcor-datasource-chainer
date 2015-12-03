@@ -4,9 +4,6 @@ var toObservable = require('./../toObservable');
 var noOp = function noOp() {};
 var expect = require('chai').expect;
 var AutoRespondDataSource = require('./../AutoRespondDataSource');
-var falcorJGraph = require('falcor-json-graph');
-var atom = falcorJGraph.atom;
-var ref = falcorJGraph.ref;
 
 describe('Set', function() {
     it('should ensure that set only ever calls a dataSource once and the first.', function(done) {

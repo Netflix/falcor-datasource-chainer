@@ -58,6 +58,7 @@ DataSourceChainer.prototype = {
         var source = this._sources[0];
         return source.set(jsonGraph);
     },
+
     call: function call(callPath, args, suffixes, paths) {
     }
 };

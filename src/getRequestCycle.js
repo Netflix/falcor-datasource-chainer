@@ -75,7 +75,7 @@ module.exports = function getRequestCycle(sources, sourceIndex,
                     return;
                 }
 
-                observer.onError(remainingPaths.map(function toPathValues(path) {
+                observer.onError(remainingPaths.map(function toPV(path) {
                     return {
                         path: path,
                         value: dataSourceError
@@ -109,8 +109,8 @@ module.exports = function getRequestCycle(sources, sourceIndex,
                 if (unhandledPaths && unhandledPaths.length) {
 
                     // Async Request Recursion.
-                    getRequestCycle(sources, sourceIndex + 1, unhandledPaths, seed,
-                                    observer, disposable);
+                    getRequestCycle(sources, sourceIndex + 1, unhandledPaths,
+                                    seed, observer, disposable);
                 }
 
                 // We have finished here.
